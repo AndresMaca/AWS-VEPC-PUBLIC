@@ -1,13 +1,13 @@
-#Introduction
+# Introduction
 
-!(images/building.png)
+![ ](images/building.png)
 
-#Network Overview.
-!(images/mme-network.png)
-!(images/sgw-network.png)
-!(images/pgw-network)
+# Network Overview.
+![ ](images/mme-network.png)
+![ ](images/sgw-network.png)
+![ ](images/pgw-network)
 
-#Network Configuration.
+# Network Configuration.
 We need to make three different VPC in order to operate in NAT mode in the load balancers, we are going to use the VPC-Wizard to automated the implementation of the VPC, manually we have to allow internet connectivity, and redirect the traffic from the private-subnet, where are hosted our VNF, to the internet passing through our LoadBalancer.
 
 Amazon Wizard allow us to skip all these steps, they give us the VPC network already configured, in the particular case and for make all with ubuntu 14.04 we are going to replace the default virtual machine, Amazon Linux AMI, to an instance with ubuntu 14.04.
@@ -21,27 +21,27 @@ Once the AWS-WIZARD finished, go to the created instance and terminate it.
 
 You have to create a new instance in the public subnet of the VPC, at the moment, the private instances can communicate between them 10.0.1.0/24 and with the instances at 10.0.0.0/16, conversely those vm can’t communicate with internet  nor ping google.com for example.
 
-!(images/nat-instance-launch)
+![ ]( images/nat-instance-launch)
 
 We are going to solve that putting the default output traffic of the 10.0.1.0/24 network, pass through our ubuntu14.04. to accomplish it, please go to VPC, Route Tables select the route with the Main field set at “yes”, select Edit  routes and add destination 0.0.0.0/0 and target set it with the nat-ubuntu-instance id.
 
-!(images/edit-route-instance)
+![ ] (images/edit-route-instance)
 
 
 When you are done, please go to subnet associations, edit subnet associations and select the private subnet 10.0.1.0/24, now create a new instance and make sure that you select our brand-new VPC network, and select the private Subnet of that network.
  
-!(images/private-instace)
+![ ]( images/private-instace)
 
 
 Check that your new instance have a proper 10.0.1.0/24 ip.
 
 
 
-#NAT CONFIGURATION.
+# NAT CONFIGURATION.
 
 Now, we’re ready with the network, first we need to configure our Nat-Instances to ensure proper functionality fo the load balancer, please go to your EC2-dashboard, select the MME load balancer and deactivate the source/destination check, for do that, select the instance go to networking, Change source/dest Check, finally click in Yes, disable. 
 
-!(images/change-source)
+![ ](images/change-source)
 
 
 Connect to the instance with ssh, and install ipvsadm.
@@ -118,7 +118,7 @@ ipvsadm -a -u 30.0.0.171:8100 -r 30.0.1.165:8100 -m
 ipvsadm -a -u 30.0.0.171:8100 -r 30.0.1.76:8100 -m 
 ipvsadm -a -u 30.0.0.171:8100 -r 30.0.1.56:8100 -m 
 
-#Network Troubleshooting
+# Network Troubleshooting
 
 For the PGW_LB and SGW_LB test you must use a udp client, so before you initialize the ./pgw 50 50, execute a udp server in the 8000 port. Hit the public address from your local machine to the PGW_LB, you must be able to establish a communication channel between the PGW and your local machine
 
@@ -129,27 +129,26 @@ traceroute www.google.com
 And look if your first hop is to the nat-instance 
 Ensure that the network security is down for the ports that the system is using.
 
-#VEPC configuration.
+# VEPC configuration.
 
 In first instance, please read the source-code  user manual that you can  found here: they explain with more details about every options, when you finish reading, update the utils.h file inside NFV_LTE_EPC/NFV_LTE_EPC-2.0/src with your network address.
 
 Download a copy of this repo in each machine, execute the install_server.sh and install.sh in first place. Next cd to NFV_LTE_EPC/NFV_LTE_EPC-2.0/src edit the Makefile with the current vnf i.e, for the MME vnf: 
 
-!(images/vnf-makefile)
+![ ](images/vnf-makefile)
 
 Warning! You MUST set the vnf-1 as the current vnf, ie: this is the utils.h for the MME2 with ip,  “10.0.1.218”, pay attention that the mme1 is set with  “10.0.1.218”:
 
-!(images/utils-instace-config1)
+![ ](images/utils-instace-config1)
 
 The utils.h of mm3 is: 
 
-!(images/utils-instace-config2)
+![ ](images/utils-instace-config2)
 
 The same procedure is applied with PGW instances, but in the SGW instances you must delete 
 the number of your current instance ie for the SGW2: 
 
-!(images/sgw-utils)
-
+![ ](images/sgw-utils)
 
 
 
