@@ -5,7 +5,7 @@
 # Network Overview.
 ![ ](images/mme-network.png)
 ![ ](images/sgw-network.png)
-![ ](images/pgw-network)
+![ ](images/pgw-network.png)
 
 # Network Configuration.
 We need to make three different VPC in order to operate in NAT mode in the load balancers, we are going to use the VPC-Wizard to automated the implementation of the VPC, manually we have to allow internet connectivity, and redirect the traffic from the private-subnet, where are hosted our VNF, to the internet passing through our LoadBalancer.
@@ -21,16 +21,16 @@ Once the AWS-WIZARD finished, go to the created instance and terminate it.
 
 You have to create a new instance in the public subnet of the VPC, at the moment, the private instances can communicate between them 10.0.1.0/24 and with the instances at 10.0.0.0/16, conversely those vm can’t communicate with internet  nor ping google.com for example.
 
-![ ]( images/nat-instance-launch)
+![ ]( images/nat-instance-launch.png)
 
 We are going to solve that putting the default output traffic of the 10.0.1.0/24 network, pass through our ubuntu14.04. to accomplish it, please go to VPC, Route Tables select the route with the Main field set at “yes”, select Edit  routes and add destination 0.0.0.0/0 and target set it with the nat-ubuntu-instance id.
 
-![ ] (images/edit-route-instance)
+![ ] (images/edit-route-instance.png)
 
 
 When you are done, please go to subnet associations, edit subnet associations and select the private subnet 10.0.1.0/24, now create a new instance and make sure that you select our brand-new VPC network, and select the private Subnet of that network.
  
-![ ]( images/private-instace)
+![ ]( images/private-instace.png)
 
 
 Check that your new instance have a proper 10.0.1.0/24 ip.
@@ -41,7 +41,7 @@ Check that your new instance have a proper 10.0.1.0/24 ip.
 
 Now, we’re ready with the network, first we need to configure our Nat-Instances to ensure proper functionality fo the load balancer, please go to your EC2-dashboard, select the MME load balancer and deactivate the source/destination check, for do that, select the instance go to networking, Change source/dest Check, finally click in Yes, disable. 
 
-![ ](images/change-source)
+![ ](images/change-source.png)
 
 
 Connect to the instance with ssh, and install ipvsadm.
@@ -135,20 +135,20 @@ In first instance, please read the source-code  user manual that you can  found 
 
 Download a copy of this repo in each machine, execute the install_server.sh and install.sh in first place. Next cd to NFV_LTE_EPC/NFV_LTE_EPC-2.0/src edit the Makefile with the current vnf i.e, for the MME vnf: 
 
-![ ](images/vnf-makefile)
+![ ](images/vnf-makefile.png)
 
 Warning! You MUST set the vnf-1 as the current vnf, ie: this is the utils.h for the MME2 with ip,  “10.0.1.218”, pay attention that the mme1 is set with  “10.0.1.218”:
 
-![ ](images/utils-instace-config1)
+![ ](images/utils-instace-config1.png)
 
 The utils.h of mm3 is: 
 
-![ ](images/utils-instace-config2)
+![ ](images/utils-instace-config2.png)
 
 The same procedure is applied with PGW instances, but in the SGW instances you must delete 
 the number of your current instance ie for the SGW2: 
 
-![ ](images/sgw-utils)
+![ ](images/sgw-utils.png)
 
 
 
