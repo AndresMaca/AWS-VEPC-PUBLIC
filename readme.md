@@ -13,10 +13,10 @@ All the network is deployed in AWS, each network is in a diferent VPC, but you c
 3. SGW
 4. RAN, SIN, Scaling controller.
 This is the scaling controller network, only contains the scaling module.
-![ ](images/main-network.png)
+![ ](images/scale-network.png)
 ![ ](images/ransink-network.png)
 Each module has their own load balancer in nat mode and one DataStore instance, the mme network contains the HSS too.
-![ ](images/mme-network.png)
+![ ](images/scale-network.png)
 ![ ](images/sgw-network.png)
 ![ ](images/pgw-network.png)
 
