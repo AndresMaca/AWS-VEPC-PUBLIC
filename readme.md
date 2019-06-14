@@ -15,9 +15,11 @@ All the network is deployed in AWS, each network is in a diferent VPC, but you c
 
 The overview of the control plane is the following.
 ![ ](images/control-network.png)
+
 This is the scaling controller network, only contains the scaling module.
 ![ ](images/scale-network.png)
 ![ ](images/ransink-network.png)
+
 Each module has their own load balancer in nat mode and one DataStore instance, the mme network contains the HSS too.
 ![ ](images/mme-network.png)
 ![ ](images/sgw-network.png)
