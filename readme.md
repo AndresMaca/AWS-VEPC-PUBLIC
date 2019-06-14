@@ -7,8 +7,14 @@ We deploy the architecture in AWS-CLOUD plataform, but this could be deployed in
 The scaling module has an associated AWS-IAM to perform scale decisions. 
 
 # Network Overview.
-
+All the network is deployed in AWS, each network is in a diferent VPC, but you can implement it in only 4-vpc in an ordered way as following:
+1. MME
+2. PGW
+3. SGW
+4. RAN, SIN, Scaling controller.
+This is the scaling controller network, only contains the scaling module.
 ![ ](images/main-network.png)
+![ ](images/ransink-network.png)
 Each module has their own load balancer in nat mode and one DataStore instance, the mme network contains the HSS too.
 ![ ](images/mme-network.png)
 ![ ](images/sgw-network.png)
